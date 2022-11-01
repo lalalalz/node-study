@@ -1,4 +1,4 @@
-const myExpcetion = require("./exception")
+const myExpcetion = require("./exception.js")
 
 module.exports = async function exception(msg) {
     

@@ -1,6 +1,6 @@
-import express from "express";
 import { v4 as UUID } from "uuid";
 import { StatusCodes } from "http-status-codes";
+import express from "express";
 
 export default class LoginController {
 
@@ -8,8 +8,8 @@ export default class LoginController {
     #loginService;
     #userRepository;
 
-    constructor(loginService, userRepository) {
-        this.#router = express.Router();
+    constructor(loginService, userRepository, router) {
+        this.#router = router;
         this.#loginService = loginService;
         this.#userRepository = userRepository;
         this.doMapping();
@@ -17,28 +17,44 @@ export default class LoginController {
 
     doMapping() {
         this.#router.get("/login", this.login);
+        this.#router.post("/join", this.join);
     }
 
-    getRouter() {
-        return this.#router;
+    join = (request, response) => {
+        console.log(request.body);
+
+        const {loginId, password} = request.body;
+
+        if (this.#loginService.join(loginId, password)) {
+            response.status(StatusCodes.CREATED).json({
+                status: "join success",
+            })
+            return;
+        }
+
+        response.status(StatusCodes.BAD_REQUEST).json({
+            status: "join fail",
+        });
     }
 
     login = (request, response) => {
         const {loginId, password} = request.query;
 
         if (this.#loginService.login(loginId, password)) {
-            const uuid = UUID();
-
-            response.cookie("sessionId", uuid);
+            this.setCookie(response);
             response.status(StatusCodes.OK).json({
                 status: "login success",
             });
-
             return;
         }
 
         response.status(StatusCodes.UNAUTHORIZED).json({
             status: "login fail",
         });
+    }
+
+    setCookie(response) {
+        const uuid = UUID();
+        response.cookie("sessionId", uuid);
     }
 }

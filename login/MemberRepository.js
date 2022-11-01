@@ -10,9 +10,18 @@ export default class MemberRepository {
         this.#store = new Map();
     }
 
-    add(loginId) {
+    add(member) {
         this.#ID++;
-        this.#store.set(this.#ID, loginId);
-        return loginId;
+        this.#store.set(member.loginID, member);
+        return this.#ID;
+    }
+
+    findOne(id) {
+        return this.#store.get(id);
+    }
+
+    findByLoginId(loginId) {
+        const findMember = this.#store.get(loginId);
+        return findMember;
     }
 }

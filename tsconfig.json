@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "allowSyntheticDefaultImports": true,
+//    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "ES6",
+    "outDir": "dist",
+    "experimentalDecorators": true,
+    "moduleResolution": "node"
+  }
+}

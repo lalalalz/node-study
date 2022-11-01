@@ -1,4 +1,4 @@
-const strategy = require("./strategy");
+const strategy = require("./strategy.js");
 
 function template() {
 

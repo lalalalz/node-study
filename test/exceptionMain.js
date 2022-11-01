@@ -1,4 +1,4 @@
-const exception = require("./exception2");
+const exception = require("./exception2.js");
 
 async function main() {
 
