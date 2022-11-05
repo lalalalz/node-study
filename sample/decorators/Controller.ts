@@ -1,6 +1,6 @@
-export function Controller(route: string = "") {
-    return function (target: Function) {
-        Reflect.defineMetadata("PREFIXROUTE", route, target);
-        Reflect.defineMetadata("CLASSTYPE", "CONTROLLER", target);
+export function Controller(routePath: string = "") {
+    return (target: Function) => {
+        Reflect.defineMetadata("CLASSTYPE", "controller", target);
+        Reflect.defineMetadata("routePath", routePath, target);
     };
 }
