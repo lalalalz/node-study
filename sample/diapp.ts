@@ -9,11 +9,16 @@ const controllers = new Controllers();
 
 import express from "express";
 import {IRouter} from "./decorators/Handlers";
+import exp from "constants";
+import ErrorMiddleware from "./middlewares/ErrorMiddleware";
 
 function start() {
     const app = express();
     const router = express.Router();
     const controllers: ControllerInterface[] = container.resolveAll<ControllerInterface>("ControllerInterface");
+
+    app.use(express.urlencoded());
+    app.use(express.json());
 
     controllers.forEach(c => {
         console.log(c.constructor.name);
@@ -26,6 +31,9 @@ function start() {
         })
         app.use(routePath, router);
     })
+
+    const errorMiddleware = new ErrorMiddleware();
+    app.use(errorMiddleware.process);
 
     app.listen(8080, () => console.log("server is running "));
 }
